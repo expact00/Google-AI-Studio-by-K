@@ -3,20 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI補助金申請支援システム</title>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    <title>EXPACT 補助金申請ナビ</title>
+    <!-- フォント: Montserrat (英語/Bold), Noto Sans JP (日本語) -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #4F46E5;
-            --primary-hover: #4338CA;
-            --secondary: #10B981;
-            --bg-color: #F3F4F6;
-            --text-main: #1F2937;
-            --text-light: #6B7280;
+            --primary: #3D3D3D;      /* チャコールグレー */
+            --primary-hover: #222222;
+            --secondary: #9B9B9B;    /* ミディアムグレー */
+            --bg-color: #F5F5F5;     /* ライトグレー */
+            --text-main: #3D3D3D;
+            --text-light: #777777;
             --white: #FFFFFF;
-            --border: #E5E7EB;
-            --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-            --gradient: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
+            --border: #E0E0E0;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --radius: 8px;           /* 控えめな角丸 */
+            --font-en: 'Montserrat', sans-serif;
+            --font-ja: 'Noto Sans JP', sans-serif;
         }
 
         * {
@@ -26,19 +29,24 @@
         }
 
         body {
-            font-family: 'Noto Sans JP', sans-serif;
+            font-family: var(--font-ja);
             background-color: var(--bg-color);
             color: var(--text-main);
             line-height: 1.6;
             padding-bottom: 100px;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .en-text {
+            font-family: var(--font-en);
         }
 
         /* Header */
         header {
-            background: var(--gradient);
-            color: var(--white);
+            background: var(--white);
+            color: var(--primary);
             padding: 1rem 2rem;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-bottom: 1px solid var(--border);
             position: sticky;
             top: 0;
             z-index: 100;
@@ -52,36 +60,73 @@
             align-items: center;
         }
 
-        .header-title {
-            font-size: 1.5rem;
-            font-weight: 700;
+        .logo-group {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.75rem;
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .api-settings-btn {
+            background: none;
+            border: none;
+            color: var(--text-light);
+            cursor: pointer;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+        
+        .api-settings-btn:hover {
+            color: var(--primary);
         }
 
         /* Container & Cards */
         .container {
             max-width: 1000px;
-            margin: 2rem auto;
+            margin: 3rem auto;
             padding: 0 1rem;
+        }
+
+        .hero-title {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .hero-title h1 {
+            color: var(--primary);
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            letter-spacing: 1px;
         }
 
         .card {
             background: var(--white);
-            border-radius: 12px;
-            padding: 2rem;
+            border-radius: var(--radius);
+            padding: 2.5rem;
             box-shadow: var(--shadow);
             margin-bottom: 2rem;
-            transition: all 0.3s ease;
+            border: 1px solid var(--border);
         }
 
         h2 {
             font-size: 1.25rem;
             margin-bottom: 1.5rem;
             color: var(--primary);
-            border-bottom: 2px solid var(--bg-color);
-            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.75rem;
         }
 
         /* Form */
@@ -102,55 +147,62 @@
         }
 
         label {
-            font-weight: 500;
+            font-weight: 700;
             font-size: 0.9rem;
+            color: var(--primary);
         }
 
         input, select, textarea {
             padding: 0.75rem;
             border: 1px solid var(--border);
-            border-radius: 8px;
+            border-radius: var(--radius);
             font-family: inherit;
             font-size: 1rem;
-            transition: border-color 0.3s;
+            background-color: var(--bg-color);
+            transition: all 0.3s;
         }
 
         input:focus, select:focus, textarea:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+            background-color: var(--white);
+            box-shadow: 0 0 0 2px rgba(61, 61, 61, 0.1);
         }
 
         /* Buttons */
         .btn {
             padding: 0.75rem 1.5rem;
             border: none;
-            border-radius: 8px;
-            font-size: 1rem;
+            border-radius: var(--radius);
+            font-size: 0.95rem;
             font-weight: 700;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
             text-align: center;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            text-decoration: none;
         }
 
         .btn-primary {
-            background: var(--gradient);
+            background: var(--primary);
             color: var(--white);
         }
 
         .btn-primary:hover {
-            opacity: 0.9;
-            transform: translateY(-2px);
+            background: var(--primary-hover);
         }
 
         .btn-outline {
-            background: transparent;
-            border: 1px solid var(--white);
-            color: var(--white);
+            background: var(--white);
+            border: 1px solid var(--primary);
+            color: var(--primary);
         }
 
         .btn-outline:hover {
-            background: rgba(255, 255, 255, 0.1);
+            background: var(--bg-color);
         }
 
         /* Matching Results */
@@ -162,31 +214,36 @@
 
         .subsidy-card {
             border: 1px solid var(--border);
-            border-radius: 12px;
+            border-radius: var(--radius);
             padding: 1.5rem;
             display: flex;
             flex-direction: column;
             gap: 1rem;
             position: relative;
-            overflow: hidden;
+            background: var(--white);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .subsidy-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
         }
 
         .score-badge {
             position: absolute;
             top: 1rem;
             right: 1rem;
-            background: var(--secondary);
-            color: var(--white);
             padding: 0.25rem 0.75rem;
-            border-radius: 999px;
+            border-radius: 4px;
             font-weight: 700;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
         }
 
         .subsidy-title {
             font-size: 1.1rem;
             font-weight: 700;
-            margin-right: 3rem;
+            margin-right: 4.5rem;
+            color: var(--primary);
         }
 
         .subsidy-desc {
@@ -198,26 +255,35 @@
         .subsidy-meta {
             font-size: 0.85rem;
             background: var(--bg-color);
-            padding: 0.5rem;
-            border-radius: 6px;
+            padding: 0.75rem;
+            border-radius: var(--radius);
+            color: var(--primary);
         }
 
         /* Document Generation */
         #doc-textarea {
             width: 100%;
-            height: 300px;
+            height: 400px;
             margin-top: 1rem;
             resize: vertical;
+            line-height: 1.8;
+            padding: 1.5rem;
+            background: var(--white);
         }
 
         .loader {
             display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255,255,255,.3);
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255,255,255,0.3);
             border-radius: 50%;
             border-top-color: var(--white);
             animation: spin 1s ease-in-out infinite;
+        }
+        
+        .loader-dark {
+            border: 2px solid rgba(61, 61, 61, 0.2);
+            border-top-color: var(--primary);
         }
 
         @keyframes spin {
@@ -227,15 +293,15 @@
         /* Chat Widget */
         .chat-widget {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
+            bottom: 24px;
+            right: 24px;
             z-index: 1000;
         }
 
         .chat-toggle {
             width: 60px;
             height: 60px;
-            background: var(--gradient);
+            background: var(--primary);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -244,28 +310,29 @@
             font-size: 1.5rem;
             cursor: pointer;
             box-shadow: var(--shadow);
-            transition: transform 0.3s;
+            transition: transform 0.2s;
         }
 
         .chat-toggle:hover {
-            transform: scale(1.1);
+            transform: scale(1.05);
         }
 
         .chat-window {
             position: absolute;
             bottom: 80px;
             right: 0;
-            width: 350px;
-            height: 500px;
+            width: 360px;
+            height: 520px;
             background: var(--white);
-            border-radius: 12px;
-            box-shadow: var(--shadow);
+            border-radius: var(--radius);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            border: 1px solid var(--border);
             display: flex;
             flex-direction: column;
             overflow: hidden;
             transform: scale(0);
             transform-origin: bottom right;
-            transition: transform 0.3s ease;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         .chat-window.open {
@@ -273,16 +340,18 @@
         }
 
         .chat-header {
-            background: var(--gradient);
+            background: var(--primary);
             color: var(--white);
             padding: 1rem;
             font-weight: 700;
             display: flex;
             justify-content: space-between;
+            align-items: center;
         }
 
         .chat-close {
             cursor: pointer;
+            font-size: 1.2rem;
         }
 
         .chat-messages {
@@ -292,19 +361,21 @@
             display: flex;
             flex-direction: column;
             gap: 1rem;
-            background: #F9FAFB;
+            background: var(--bg-color);
         }
 
         .msg {
-            max-width: 80%;
-            padding: 0.75rem;
-            border-radius: 8px;
+            max-width: 85%;
+            padding: 0.75rem 1rem;
+            border-radius: var(--radius);
             font-size: 0.9rem;
+            line-height: 1.5;
         }
 
         .msg-bot {
             background: var(--white);
             border: 1px solid var(--border);
+            color: var(--primary);
             align-self: flex-start;
             border-bottom-left-radius: 0;
         }
@@ -321,38 +392,58 @@
             padding: 0.75rem;
             border-top: 1px solid var(--border);
             background: var(--white);
+            gap: 0.5rem;
         }
 
         .chat-input input {
             flex-grow: 1;
-            border: none;
-            padding: 0.5rem;
-            border-radius: 4px;
+            border: 1px solid var(--border);
+            padding: 0.75rem;
+            border-radius: var(--radius);
             background: var(--bg-color);
         }
 
         .chat-input button {
-            background: transparent;
+            background: #000000;
             border: none;
-            color: var(--primary);
+            color: var(--white);
             font-weight: 700;
-            padding: 0 1rem;
+            padding: 0 1.25rem;
+            border-radius: var(--radius);
             cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .chat-input button:hover {
+            background: #333333;
         }
 
         /* Modal */
         dialog {
             margin: auto;
-            padding: 2rem;
-            border: none;
-            border-radius: 12px;
-            box-shadow: var(--shadow);
+            padding: 2.5rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
             max-width: 500px;
             width: 90%;
+            background: var(--white);
+            color: var(--primary);
         }
 
         dialog::backdrop {
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(2px);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-light);
+            font-size: 0.85rem;
+            border-top: 1px solid var(--border);
+            background: var(--white);
         }
 
         .hidden {
@@ -361,29 +452,50 @@
 
         /* Responsive */
         @media (max-width: 768px) {
-            .form-grid {
-                grid-template-columns: 1fr;
-            }
-            .chat-window {
-                width: 300px;
-                height: 450px;
-            }
+            .form-grid { grid-template-columns: 1fr; }
+            .chat-window { width: 320px; height: 480px; }
+            .header-actions { gap: 1rem; }
+            .btn-outline { padding: 0.5rem 1rem; font-size: 0.85rem; }
         }
     </style>
 </head>
 <body>
 
+    <!-- Header -->
     <header>
         <div class="header-container">
-            <div class="header-title">💡 AI補助金申請ナビ</div>
-            <button class="btn btn-outline" onclick="openSettings()">⚙️ API設定</button>
+            <div class="logo-group">
+                <!-- EXPACT クロスハッチ風 SVG アイコン -->
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square">
+                    <line x1="6" y1="3" x2="6" y2="21" />
+                    <line x1="12" y1="3" x2="12" y2="21" />
+                    <line x1="18" y1="3" x2="18" y2="21" />
+                    <line x1="3" y1="6" x2="21" y2="6" />
+                    <line x1="3" y1="12" x2="21" y2="12" />
+                    <line x1="3" y1="18" x2="21" y2="18" />
+                </svg>
+                <span class="logo-text en-text">EXPACT</span>
+            </div>
+            <div class="header-actions">
+                <button class="api-settings-btn" onclick="openSettings()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                    API設定
+                </button>
+                <a href="https://expact.jp" target="_blank" class="btn btn-outline en-text">CONTACT US</a>
+            </div>
         </div>
     </header>
 
     <main class="container">
+        <!-- Hero Section -->
+        <div class="hero-title">
+            <h1 class="en-text">EXPACT 補助金申請ナビ</h1>
+            <p>AIが最適な補助金を提案し、専門的な事業計画書ドラフトを自動生成します。</p>
+        </div>
+
         <!-- 企業情報入力セクション -->
         <section class="card" id="section-profile">
-            <h2>🏢 企業情報入力</h2>
+            <h2>企業情報の入力</h2>
             <form id="profile-form" onsubmit="handleMatch(event)">
                 <div class="form-grid">
                     <div class="form-group">
@@ -420,11 +532,14 @@
                         <input type="number" id="capital" min="0" required placeholder="例: 1000">
                     </div>
                     <div class="form-group full-width">
-                        <label for="business_content">事業内容・現在の課題・やりたいこと</label>
-                        <textarea id="business_content" rows="3" required placeholder="例: 小売業を営んでいるが、ECサイトを構築して全国展開したい。またバックオフィス業務をデジタル化したい。"></textarea>
+                        <label for="business_content">事業内容・現在の課題・実現したいこと</label>
+                        <textarea id="business_content" rows="4" required placeholder="例: 小売業を営んでいるが、人手不足が課題。バックオフィス業務のデジタル化や、ECサイトを構築して全国展開を行いたい。"></textarea>
                     </div>
                     <div class="form-group full-width" style="margin-top: 1rem;">
-                        <button type="submit" class="btn btn-primary" id="btn-match">🎯 適合する補助金をAIマッチング</button>
+                        <button type="submit" class="btn btn-primary" id="btn-match">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                            適合する補助金をAIマッチング
+                        </button>
                     </div>
                 </div>
             </form>
@@ -432,8 +547,8 @@
 
         <!-- マッチング結果セクション -->
         <section class="card hidden" id="section-matching">
-            <h2>📊 マッチング結果</h2>
-            <p style="margin-bottom: 1rem; color: var(--text-light);">入力された情報をもとに、適合する可能性が高い順に表示しています。</p>
+            <h2>マッチング結果</h2>
+            <p style="margin-bottom: 1.5rem; color: var(--text-light);">入力された情報をもとに、採択可能性や適合度が高い順に表示しています。</p>
             <div class="results-grid" id="matching-results">
                 <!-- JSで動的に追加 -->
             </div>
@@ -441,9 +556,12 @@
 
         <!-- 申請書作成セクション -->
         <section class="card hidden" id="section-document">
-            <h2>📝 申請書自動生成 (<span id="doc-subsidy-name"></span>)</h2>
-            <p style="margin-bottom: 1rem; color: var(--text-light);">AIが申請書類の「事業計画」部分のドラフトを作成します。※Gemini APIキーの登録が必要です。</p>
-            <button id="btn-generate" class="btn btn-primary" onclick="generateDocument()">✨ AIでドラフトを作成する</button>
+            <h2>事業計画書 自動生成 (<span id="doc-subsidy-name"></span>)</h2>
+            <p style="margin-bottom: 1.5rem; color: var(--text-light);">EXPACTの専門ノウハウを学習したAIが、申請書類のドラフトを作成します。※Gemini APIキーの登録が必要です。</p>
+            <button id="btn-generate" class="btn btn-primary" onclick="generateDocument()">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+                AIでドラフトを作成する
+            </button>
             <textarea id="doc-textarea" class="hidden" placeholder="ここに生成された申請書のドラフトが表示されます。自由に編集可能です。"></textarea>
         </section>
     </main>
@@ -452,7 +570,10 @@
     <div class="chat-widget">
         <div class="chat-window" id="chat-window">
             <div class="chat-header">
-                <span>🤖 補助金AI相談室</span>
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                    <span>EXPACT AI 相談室</span>
+                </div>
                 <span class="chat-close" onclick="toggleChat()">✖</span>
             </div>
             <div class="chat-messages" id="chat-messages">
@@ -463,24 +584,31 @@
                 <button onclick="sendChat()">送信</button>
             </div>
         </div>
-        <div class="chat-toggle" onclick="toggleChat()">💬</div>
+        <div class="chat-toggle" onclick="toggleChat()">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+        </div>
     </div>
 
     <!-- API設定モーダル -->
     <dialog id="settings-modal">
-        <h2 style="border:none; margin-bottom: 0.5rem;">⚙️ Gemini API 設定</h2>
+        <h2 style="border:none; margin-bottom: 0.5rem;">Gemini API 設定</h2>
         <p style="font-size: 0.9rem; color: var(--text-light); margin-bottom: 1.5rem;">
-            AI機能（申請書生成・チャットボット）を利用するには Google Gemini API キーが必要です。
+            高度なAI機能（事業計画書生成・チャットボット）を利用するには Google Gemini API キーが必要です。
         </p>
-        <div class="form-group" style="margin-bottom: 1.5rem;">
+        <div class="form-group" style="margin-bottom: 2rem;">
             <label for="api-key">APIキー</label>
             <input type="password" id="api-key" placeholder="AIzaSy...">
         </div>
         <div style="display: flex; gap: 1rem; justify-content: flex-end;">
-            <button class="btn btn-outline" style="color:var(--text-main); border-color:var(--border);" onclick="closeSettings()">キャンセル</button>
+            <button class="btn btn-outline" onclick="closeSettings()">キャンセル</button>
             <button class="btn btn-primary" onclick="saveSettings()">保存する</button>
         </div>
     </dialog>
+
+    <!-- Footer -->
+    <footer>
+        <p class="en-text">&copy; 2025 EXPACT Inc. All rights reserved.</p>
+    </footer>
 
     <script>
         // --- 状態管理 ---
@@ -488,7 +616,7 @@
         let selectedSubsidy = null;
         let chatHistory = [];
 
-        // --- 補助金データベース (モック) ---
+        // --- 補助金データベース (7件に拡充) ---
         const subsidyDB = [
             {
                 id: "it",
@@ -534,7 +662,7 @@
                     if (isSmall) {
                         score = 60;
                         const text = p.business_content;
-                        if (text.includes("販路") || text.includes("広告") || text.includes("店舗") || text.includes("展示会")) score += 30;
+                        if (text.includes("販路") || text.includes("広告") || text.includes("店舗") || text.includes("展示会") || text.includes("HP")) score += 30;
                     }
                     return Math.min(score, 98);
                 }
@@ -551,17 +679,59 @@
                     if (text.includes("新規") || text.includes("転換") || text.includes("新事業") || text.includes("再編")) score += 40;
                     return Math.min(score, 92);
                 }
+            },
+            {
+                id: "shoryokuka",
+                title: "中小企業省力化投資補助金",
+                purpose: "IoTやロボットなどの省力化製品を導入し、人手不足解消と生産性向上を図る取り組みを支援",
+                max_amount: "最大 1,500万円",
+                rate: "1/2",
+                matchLogic: (p) => {
+                    let score = 40;
+                    const text = p.business_content;
+                    if (p.employees > 0 && p.employees < 100) score += 15;
+                    if (text.includes("人手") || text.includes("不足") || text.includes("ロボット") || text.includes("自動") || text.includes("省力") || text.includes("IoT")) score += 35;
+                    return Math.min(score, 90);
+                }
+            },
+            {
+                id: "chiikikoyou",
+                title: "地域雇用開発助成金",
+                purpose: "雇用機会が不足している地域での事業所設置・整備と、地域求職者の雇い入れを支援",
+                max_amount: "最大 900万円（1年目）",
+                rate: "定額（かかった費用と雇用規模による）",
+                matchLogic: (p) => {
+                    let score = 20;
+                    const toshi = ["東京都", "大阪府", "愛知県"];
+                    if (!toshi.includes(p.location)) score += 30; // 地方なら加点
+                    const text = p.business_content;
+                    if (text.includes("雇用") || text.includes("採用") || text.includes("工場") || text.includes("地方") || text.includes("新設")) score += 35;
+                    return Math.min(score, 85);
+                }
+            },
+            {
+                id: "kenkyukaihatsu",
+                title: "研究開発税制（中小企業技術基盤強化税制）",
+                purpose: "製品製造や技術改良に係る試験研究を行った場合、試験研究費の一定割合を法人税額から控除",
+                max_amount: "法人税額の最大 40%",
+                rate: "税額控除 12%〜17%",
+                matchLogic: (p) => {
+                    let score = 30;
+                    if (p.industry === "製造業" || p.industry === "IT・情報通信業") score += 20;
+                    const text = p.business_content;
+                    if (text.includes("研究") || text.includes("開発") || text.includes("特許") || text.includes("実験") || text.includes("新技術")) score += 30;
+                    if (p.capital >= 1000) score += 10;
+                    return Math.min(score, 90);
+                }
             }
         ];
 
         // --- 初期化 ---
         window.onload = () => {
-            // APIキーの復元
             const savedKey = localStorage.getItem('gemini_api_key');
             if (savedKey) document.getElementById('api-key').value = savedKey;
 
-            // チャットの初期化
-            addChatMessage("bot", "こんにちは！AI補助金コンサルタントです。<br>補助金に関する疑問や、自社で使える補助金についてお気軽にご質問ください。<br>※ご利用前に右上の「API設定」からGeminiのAPIキーをご登録ください。");
+            addChatMessage("bot", "こんにちは。EXPACTのAIコンサルタントです。<br>補助金に関する疑問や、自社で活用できる制度についてプロの視点からお答えします。<br>※ご利用前に上部の「API設定」からGemini APIキーをご登録ください。");
         };
 
         // --- APIキー設定 ---
@@ -583,7 +753,6 @@
         function handleMatch(e) {
             e.preventDefault();
             
-            // プロフィール取得
             userProfile = {
                 industry: document.getElementById('industry').value,
                 location: document.getElementById('location').value,
@@ -593,10 +762,9 @@
             };
 
             const btn = document.getElementById('btn-match');
-            btn.innerHTML = '<span class="loader"></span> 判定中...';
+            btn.innerHTML = '<span class="loader loader-dark" style="border-top-color:var(--white);"></span> マッチング実行中...';
             btn.disabled = true;
 
-            // 擬似的な処理時間でUIをリッチに
             setTimeout(() => {
                 const results = subsidyDB.map(s => {
                     return { ...s, score: s.matchLogic(userProfile) };
@@ -604,7 +772,7 @@
 
                 renderResults(results);
                 
-                btn.innerHTML = '🎯 適合する補助金をAIマッチング';
+                btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg> 適合する補助金をAIマッチング';
                 btn.disabled = false;
 
                 const sec = document.getElementById('section-matching');
@@ -619,20 +787,32 @@
             container.innerHTML = '';
 
             results.forEach(res => {
-                let color = res.score >= 80 ? '#10B981' : (res.score >= 50 ? '#F59E0B' : '#EF4444');
+                // EXPACTブランドカラーに基づくスコアバッジ色
+                let bgColor, textColor;
+                if (res.score >= 80) {
+                    bgColor = 'var(--primary)'; // チャコール
+                    textColor = 'var(--white)';
+                } else if (res.score >= 50) {
+                    bgColor = 'var(--secondary)'; // ミディアムグレー
+                    textColor = 'var(--white)';
+                } else {
+                    bgColor = 'var(--bg-color)'; // ライトグレー
+                    textColor = 'var(--text-main)';
+                }
                 
                 const card = document.createElement('div');
                 card.className = 'subsidy-card';
                 card.innerHTML = `
-                    <div class="score-badge" style="background:${color}">適合率 ${res.score}%</div>
+                    <div class="score-badge" style="background:${bgColor}; color:${textColor};">適合率 ${res.score}%</div>
                     <div class="subsidy-title">${res.title}</div>
                     <div class="subsidy-desc">${res.purpose}</div>
                     <div class="subsidy-meta">
                         <strong>最大補助額:</strong> ${res.max_amount} <br>
                         <strong>補助率:</strong> ${res.rate}
                     </div>
-                    <button class="btn btn-outline" style="color:var(--primary); border-color:var(--primary); width:100%; margin-top:auto;" onclick="openDocumentSection('${res.id}')">
-                        📝 この補助金で申請書を作成
+                    <button class="btn btn-outline" style="width:100%; margin-top:auto;" onclick="openDocumentSection('${res.id}')">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                        この補助金で申請書を作成
                     </button>
                 `;
                 container.appendChild(card);
@@ -655,16 +835,17 @@
         async function generateDocument() {
             const apiKey = localStorage.getItem('gemini_api_key');
             if (!apiKey) {
-                alert("Gemini APIキーが設定されていません。右上の「API設定」から登録してください。");
+                alert("Gemini APIキーが設定されていません。画面上部の「API設定」から登録してください。");
                 return;
             }
 
             const btn = document.getElementById('btn-generate');
-            btn.innerHTML = '<span class="loader"></span> AIが執筆中...';
+            btn.innerHTML = '<span class="loader" style="border-top-color:var(--white);"></span> AIが専門的なドラフトを執筆中...';
             btn.disabled = true;
 
-            const prompt = `あなたは中小企業診断士であり、プロの補助金申請コンサルタントです。
-以下の企業情報をもとに、「${selectedSubsidy.title}」の申請に向けた事業計画書（申請書類）のドラフトを作成してください。
+            // プロンプトをEXPACTブランドに合わせて強化（5セクション構成）
+            const prompt = `あなたはEXPACT所属のプロフェッショナルな補助金申請コンサルタントです。
+以下の企業情報をもとに、「${selectedSubsidy.title}」の申請に向けた事業計画書のドラフトを作成してください。
 
 【企業情報】
 業種: ${userProfile.industry}
@@ -677,12 +858,14 @@
 名称: ${selectedSubsidy.title}
 目的: ${selectedSubsidy.purpose}
 
-【出力構成要件】
-1. 企業概要と現状の課題分析（強み・弱みなど）
-2. 補助事業の具体的な内容（何を導入・開発するか）
-3. 期待される効果と将来展望（定量的・定性的な成果）
+【出力構成要件（以下の5セクションで構成してください）】
+1. 企業概要と事業の現状（自社の強み、顧客基盤、主力製品・サービス）
+2. 事業環境と直面している課題（市場動向、競合状況、内部の課題）
+3. 補助事業の具体的内容（導入する設備・システム、実施する施策の具体像）
+4. 実施体制とスケジュール（社内の推進体制、外部パートナー、月別の導入計画）
+5. 期待される効果と収益計画（売上・利益の向上目標、定量的・定性的な波及効果）
 
-ですます調で、審査員を説得できるような論理的でプロフェッショナルな文章を出力してください。`;
+ですます調で、審査員を論理的に説得できる、プロフェッショナルかつ洗練された文章を出力してください。見出しはMarkdown形式（## など）を使用してください。`;
 
             try {
                 const text = await callGeminiAPI(apiKey, prompt);
@@ -692,7 +875,7 @@
             } catch (error) {
                 alert("エラーが発生しました: " + error.message);
             } finally {
-                btn.innerHTML = '✨ AIでドラフトを再作成する';
+                btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.59-9.21l-5.66 5.66"></path></svg> AIでドラフトを再作成する';
                 btn.disabled = false;
             }
         }
@@ -713,29 +896,25 @@
 
             const apiKey = localStorage.getItem('gemini_api_key');
             if (!apiKey) {
-                alert("Gemini APIキーが設定されていません。右上の「API設定」から登録してください。");
+                alert("Gemini APIキーが設定されていません。画面上部の「API設定」から登録してください。");
                 return;
             }
 
-            // ユーザーメッセージ追加
             addChatMessage('user', text);
             inputEl.value = '';
             
-            // 履歴への追加
             chatHistory.push({ role: "user", parts: [{ text: text }] });
 
-            // ローディング表示
             const loaderId = 'loader-' + Date.now();
-            addChatMessage('bot', '<span class="loader" style="border-top-color:var(--primary); width:15px; height:15px; border-width:2px;"></span>', loaderId);
+            addChatMessage('bot', '<span class="loader loader-dark"></span>', loaderId);
 
             try {
                 const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
                 
-                // システムプロンプト的に役割を指示するため、初回なら履歴に注入することも可能だが、簡易的に直近のメッセージに文脈を付与する。
                 const payload = {
                     contents: chatHistory,
                     systemInstruction: {
-                        parts: [{ text: "あなたはプロの補助金コンサルタントです。親切丁寧かつ簡潔に回答してください。"}]
+                        parts: [{ text: "あなたはEXPACT所属のプロの補助金コンサルタントです。論理的でプロフェッショナル、かつ親切丁寧なトーンで回答してください。"}]
                     }
                 };
 
@@ -755,14 +934,13 @@
                 
                 chatHistory.push({ role: "model", parts: [{ text: botReply }] });
 
-                // ローディングを消して回答を表示
                 document.getElementById(loaderId).remove();
                 addChatMessage('bot', botReply.replace(/\n/g, '<br>'));
 
             } catch (error) {
                 document.getElementById(loaderId).remove();
                 addChatMessage('bot', "⚠️ エラーが発生しました: " + error.message);
-                chatHistory.pop(); // 失敗した履歴を削除
+                chatHistory.pop();
             }
         }
 
@@ -797,7 +975,6 @@
             const data = await response.json();
             return data.candidates[0].content.parts[0].text;
         }
-
     </script>
 </body>
 </html>
